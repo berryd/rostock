@@ -4,8 +4,11 @@ width = 76;
 height = carriage_height;
 
 offset = 25;
-cutout = 13;
+cutout = 20;
 middle = 2*offset - width/2;
+
+nut_depth = 4;
+use_nut = false;
 
 module parallel_joints(reinforced) {
   difference() {
@@ -23,14 +26,16 @@ module parallel_joints(reinforced) {
     }
     rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true, $fn=12);
 
-    for (x = [-offset, offset]) {
+    for (x = [-offset-15, offset+15]) {
       translate([x, 5.5, 0])
         cylinder(r=cutout/2, h=100, center=true, $fn=24);
       translate([x, -4.5, 0])
         cube([cutout, 20, 100], center=true);
-      translate([x, 0, 0]) rotate([0, 90, 0]) rotate([0, 0, 30])
-        cylinder(r=3.3, h=17, center=true, $fn=6);
     }
+    //Nut inset
+    if(use_nut)
+    translate([0, 0, 0]) rotate([0, 90, 0]) rotate([0, 0, 30])
+      cylinder(r=3.3, h=cutout+nut_depth*2, center=true, $fn=6);
     translate([0, 2, 0]) cylinder(r=middle, h=100, center=true);
     translate([0, -8, 0]) cube([2*middle, 20, 100], center=true);
   }
