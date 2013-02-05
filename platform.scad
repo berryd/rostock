@@ -22,8 +22,9 @@ module platform() {
       cylinder(r=30, h=h, center=true);
     }
     cylinder(r=20, h=h+12, center=true);
-    for (a = [0:2]) {
-      rotate(a*120) {
+
+    for (a = [0:5]) {
+      rotate(a*60) {
         translate([0, -25, 0])
           cylinder(r=2.2, h=h+1, center=true, $fn=12);
         // Screw holes for adjustable bottom endstops.
@@ -31,6 +32,7 @@ module platform() {
           cylinder(r=1.5, h=h+1, center=true, $fn=12);
       }
     }
+
   }
 }
 
