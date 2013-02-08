@@ -9,6 +9,7 @@ middle = 2*offset - width/2;
 
 nut_depth = 4;
 use_nut = false;
+beef_and_spring = true;
 
 module parallel_joints(reinforced) {
   difference() {
@@ -36,8 +37,21 @@ module parallel_joints(reinforced) {
     if(use_nut)
     translate([0, 0, 0]) rotate([0, 90, 0]) rotate([0, 0, 30])
       cylinder(r=3.3, h=cutout+nut_depth*2, center=true, $fn=6);
-    translate([0, 2, 0]) cylinder(r=middle, h=100, center=true);
-    translate([0, -8, 0]) cube([2*middle, 20, 100], center=true);
+    if(beef_and_spring) {
+        cube([1,10,10], center=true);
+        hull() {
+            translate([10,-5,0]) cylinder(r=7, h=100, center=true, $fn=36);
+            translate([15,-5,0]) cylinder(r=7, h=100, center=true, $fn=36);
+        }
+        hull() {
+            translate([-10,-5,0]) cylinder(r=7, h=100, center=true, $fn=36);
+            translate([-15,-5,0]) cylinder(r=7, h=100, center=true, $fn=36);
+        }
+    }
+    else {
+        translate([0, 2, 0]) cylinder(r=middle, h=100, center=true);
+        translate([0, -8, 0]) cube([2*middle, 20, 100], center=true);
+    }
   }
 }
 
