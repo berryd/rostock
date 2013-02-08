@@ -17,6 +17,9 @@ dTen = 8;				 // Depth of tensioner
 tArm = 3;				 // Arm brace thickness
 lArm = 20;				 // Length of Arm brace
 
+smooth=12;
+bSmooth=6;
+
 module half(nut) {
     difference() {
         union() {
@@ -25,7 +28,7 @@ module half(nut) {
             translate([hTen-0.1,0,0]) cube([3,dTen,wTen+tArm]) ;		// 'cap'
         }
         // Make screw hole
-        translate([3+rScrew,13,(wTen-((wTen-tArm)/2))]) rotate([90,0,0]) cylinder(20,rScrew,rScrew,$fn=90);
+        translate([3+rScrew,13,(wTen-((wTen-tArm)/2))]) rotate([90,0,0]) cylinder(20,rScrew,rScrew,$fn=smooth);
         // Nut keeper
         if(nut == true)
         translate([3+rScrew,13-tNut,(wTen-((wTen-tArm)/2))]) rotate([90,0,0]) cylinder(5,rNut,rNut,$fn=6);
@@ -38,13 +41,14 @@ module belt() {
     module belt_segment() {
         difference() {
             translate([belt_pitch/4,0,tBase]) cube([belt_pitch,wBelt,tBase*2], center=true);
-            translate([belt_pitch/2,0,tBase*2]) rotate([90,0,0]) cylinder(wBelt+2,belt_pitch/4, belt_pitch/4, $fn=90, center=true);
+            translate([belt_pitch/2,0,tBase*2]) rotate([90,0,0]) cylinder(wBelt+2,belt_pitch/4, belt_pitch/4, $fn=bSmooth, center=true);
         }
-        translate([0,0,tBase*2]) rotate([90,0,0]) cylinder(wBelt,belt_pitch/4, belt_pitch/4, $fn=90, center=true);
+        translate([0,0,tBase*2]) rotate([90,0,0]) cylinder(wBelt,belt_pitch/4, belt_pitch/4, $fn=bSmooth, center=true);
     }
-
     for (inc = [0:(belt_pitch):lBelt]) translate([inc, 0, 0]) belt_segment();
 }
+
+//belt();
 
 half(true);
 translate([lArm+2,0,0]) half();
